@@ -54,10 +54,8 @@ function solveSudoku(&$sudoku, $setSudoku){
 function checkSudoku($sudoku): bool {
     // check rows
     foreach($sudoku as $row){
-        $counts = array_count_values($row);
-        foreach($counts as $key => $count){
-            if($key == 0) continue;
-            if($count > 1) return false;
+        if(!isAllUnique($row)){
+            return false;
         }
     }
 
@@ -69,10 +67,8 @@ function checkSudoku($sudoku): bool {
             $col[] = $sudoku[$j][$i];
         }
 
-        $counts = array_count_values($col);
-        foreach($counts as $key => $count){
-            if($key == 0) continue;
-            if($count > 1) return false;
+        if(!isAllUnique($col)){
+            return false;
         }
     }
 
@@ -87,10 +83,8 @@ function checkSudoku($sudoku): bool {
                 }
             }
 
-            $counts = array_count_values($block);
-            foreach($counts as $key => $count){
-                if($key == 0) continue;
-                if($count > 1) return false;
+            if(!isAllUnique($block)){
+                return false;
             }
         }
     }
@@ -98,9 +92,7 @@ function checkSudoku($sudoku): bool {
     return true;
 }
 
-function printSudoku($sudoku, $setSudoku, $overwrite = false){
-    if($overwrite) echo "\e[1;1H";
-
+function printSudoku($sudoku, $setSudoku){
     foreach($sudoku as $k => $a){
         foreach($a as $l => $b){
             if($b == 0){
@@ -118,4 +110,18 @@ function printSudoku($sudoku, $setSudoku, $overwrite = false){
 
         echo "\n";
     }
+}
+
+function isAllUnique($row){
+    $count = [0,0,0,0,0,0,0,0,0,0];
+
+    for($i = 0; $i < 9; $i++){
+        if($row[$i] != 0 && $count[$row[$i]] > 0){
+            return false;
+        }else{
+            $count[$row[$i]]++;
+        }
+    }
+
+    return true;
 }

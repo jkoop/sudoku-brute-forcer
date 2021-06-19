@@ -30,7 +30,7 @@ int main(){
 
     bool solved = solveSudoku(sudoku, setSudoku);
 
-    printSudoku(sudoku);
+    printSudoku(sudoku, setSudoku);
 
     return solved;
 }
@@ -113,13 +113,19 @@ bool checkSudoku(int sudoku[9][9]){
     return true;
 }
 
-void printSudoku(int sudoku[9][9]){
+void printSudoku(int sudoku[9][9], int setSudoku[9][9]){
     for(int i = 0; i < 9; i++){
         for(int j = 0; j < 9; j++){
 			if(sudoku[i][j] == 0){
 				printf("- ");
 			}else{
-	            printf("%d ", sudoku[i][j]);
+                if(setSudoku[i][j] > 0){
+                    printf("\e[1;36m");
+                    printf("%d ", sudoku[i][j]);
+                    printf("\e[0m");
+                }else{
+                    printf("%d ", sudoku[i][j]);
+                }
 			}
         }
         printf("\n");

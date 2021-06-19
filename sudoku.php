@@ -21,6 +21,11 @@ function solveSudoku(&$sudoku, $setSudoku){
     $forward = true;
 
     for($i=0; $i<81; $i++){
+        if($i < 0){
+            echo "\e[1;31mNot solvable\e[0m\n";
+            return;
+        }
+
         $x = $i % 9;
         $y = floor($i / 9);
 

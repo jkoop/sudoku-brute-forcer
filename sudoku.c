@@ -39,6 +39,11 @@ bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
     bool forward = 1;
 
     for(int i = 0; i < 81; i++){
+        if(i < 0){
+            printf("\e[1;31mNot solvable\e[0m\n");
+            return false;
+        }
+
         int x = i % 9;
         int y = i / 9; // will be truncated (floored)
 

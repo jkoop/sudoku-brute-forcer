@@ -6,10 +6,13 @@ All notable changes to this project will be documented in this file. The format 
 ### Added
 + User input via terminal, not by editing the program
 
-## 1.0.1 - 2021-06-19 \[Unreleased]
+## 1.0.1 - 2021-06-20 \[Unreleased]
 
 ### Fixed
 + Graceful handling of impossible Sudokus
+
+### Removed
++ PHP port
 
 ## [1.0.0] - 2021-06-19
 ### Added

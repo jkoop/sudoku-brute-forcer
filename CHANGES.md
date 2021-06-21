@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. The format 
 ## [1.1.1] - 2021-06-21
 ### Fixed
 + Backspace behaves now
++ Runs faster
 
 ## [1.1.0] - 2021-06-20
 ### Added

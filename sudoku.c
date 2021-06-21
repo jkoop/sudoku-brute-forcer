@@ -158,9 +158,10 @@ bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
 
 bool checkSudoku(int sudoku[9][9], int x, int y){
     int checkout[9];
+    int field = sudoku[y][x];
 
     // check row
-    if(!isAllUnique(sudoku[y])){
+    if(!isAllUnique(sudoku[y], field)){
         return false;
     }
 
@@ -169,7 +170,7 @@ bool checkSudoku(int sudoku[9][9], int x, int y){
         checkout[j] = sudoku[j][x];
     }
 
-    if(!isAllUnique(checkout)){
+    if(!isAllUnique(checkout, field)){
         return false;
     }
 
@@ -180,7 +181,7 @@ bool checkSudoku(int sudoku[9][9], int x, int y){
         }
     }
 
-    if(!isAllUnique(checkout)){
+    if(!isAllUnique(checkout, field)){
         return false;
     }
 
@@ -215,14 +216,16 @@ void printSudoku(int sudoku[9][9], int setSudoku[9][9]){
     }
 }
 
-bool isAllUnique(int row[9]){
-    int count[10] = {0,0,0,0,0,0,0,0,0,0};
+bool isAllUnique(int row[9], int field){
+    bool found = false;
 
     for(int i = 0; i < 9; i++){
-        if(row[i] != 0 && count[row[i]] > 0){
-            return false;
-        }else{
-            count[row[i]]++;
+        if(row[i] == field){
+            if(found){
+                return false;
+            }else{
+                found = true;
+            }
         }
     }
 

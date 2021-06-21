@@ -1,30 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <termios.h>
 
+void getSudoku();
 bool solveSudoku();
 bool checkSudoku();
 void printSudoku();
 bool isAllUnique();
+int getch();
 
 int main(){
-    int sudoku[9][9] = {
-        {8, 7, 6, 5, 4, 3, 2, 1, 9},
-        {0, 0, 0, 0, 0, 0, 0, 0, 8},
-        {0, 0, 0, 0, 0, 0, 0, 0, 7},
-        {0, 0, 0, 0, 0, 0, 0, 0, 6},
-        {0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {0, 0, 0, 0, 0, 0, 0, 0, 2},
-        {0, 0, 0, 0, 0, 0, 0, 0, 3},
-        {0, 0, 0, 0, 0, 0, 0, 0, 4},
-        {0, 0, 0, 0, 0, 0, 0, 0, 5},
-    };
+    int sudoku[9][9];
+
+    getSudoku(sudoku);
 
     // copy sudoku to setSudoku
     int setSudoku[9][9];
     for(int i = 0; i < 9; i++){
         for(int j = 0; j < 9; j++){
-			setSudoku[i][j] = sudoku[i][j];
+            setSudoku[i][j] = sudoku[i][j];
         }
     }
 
@@ -35,8 +31,65 @@ int main(){
     return solved;
 }
 
+void getSudoku(int sudoku[9][9]){
+    int c;
+    char k;
+
+    printf("Enter numbers of sudoku. Use 0 for blank space:");
+
+    for(int i = 0; i < 9; i++){
+        printf("\n- - - | - - - | - - -");
+
+        if(i == 2 || i == 5){
+            printf("\n---------------------");
+        }
+    }
+
+    printf("\e[10A\e[1G");
+    fflush(stdout);
+
+    while(true){
+        k = getch();
+
+        if(k >= 48 && k <= 57){
+            k = k - 48;
+
+            sudoku[c / 9][c % 9] = k;
+
+            if(k == 0){
+                printf("\e[2C");
+            }else{
+                printf("%i\e[1C", k);
+            }
+
+            c++;
+
+            if(c % 3 == 0){
+                printf("\e[2C");
+            }
+
+            if(c % 9 == 0 && c != 81){
+                printf("\e[1B\e[1G");
+            }
+
+            if(c % 27 == 0 && c != 81){
+                printf("\e[1B\e[1G");
+            }
+
+            fflush(stdout);
+
+            if(c == 81){
+                printf("\n");
+                break;
+            }
+        }
+    }
+}
+
 bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
     bool forward = 1;
+
+    printf("Solving...\n");
 
     for(int i = 0; i < 81; i++){
         if(i < 0){
@@ -116,9 +169,9 @@ bool checkSudoku(int sudoku[9][9]){
 void printSudoku(int sudoku[9][9], int setSudoku[9][9]){
     for(int i = 0; i < 9; i++){
         for(int j = 0; j < 9; j++){
-			if(sudoku[i][j] == 0){
-				printf("- ");
-			}else{
+            if(sudoku[i][j] == 0){
+                printf("- ");
+            }else{
                 if(setSudoku[i][j] > 0){
                     printf("\e[1;36m");
                     printf("%d ", sudoku[i][j]);
@@ -126,7 +179,7 @@ void printSudoku(int sudoku[9][9], int setSudoku[9][9]){
                 }else{
                     printf("%d ", sudoku[i][j]);
                 }
-			}
+            }
         }
         printf("\n");
     }
@@ -144,4 +197,17 @@ bool isAllUnique(int row[9]){
     }
 
     return true;
+}
+
+int getch(void){  // https://ubuntuforums.org/showthread.php?t=225713&page=2&p=1335772#post1335772
+    int ch;
+    struct termios oldt;
+    struct termios newt;
+    tcgetattr(STDIN_FILENO, &oldt); /*store old settings */
+    newt = oldt; /* copy old settings to new settings */
+    newt.c_lflag &= ~(ICANON | ECHO); /* make one change to old settings in new settings */
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt); /*apply the new settings immediately */
+    ch = getchar(); /* standard getchar call */
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt); /*reapply the old settings */
+    return ch; /*return received char */
 }

@@ -80,6 +80,21 @@ void getSudoku(int sudoku[9][9]){
                 printf("\n");
                 break;
             }
+        }else if(k == 127){
+            if(c > 0) c--;
+            printf("\e[2D");
+
+            if(c % 3 == 2){
+                printf("\e[2D");
+            }
+
+            if(c % 9 == 8){
+                printf("\e[1A\e[20C");
+            }
+
+            printf("-\e[1D");
+
+            fflush(stdout);
         }
     }
 }
@@ -94,9 +109,9 @@ bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
     for(int i = 0; i < 81; i++){
         if(i < 0){
             if(solutions == 0){
-                printf("\e[1;31mNot solvable\e[0m\n");
+                printf("\e[1G\e[1;31mNot solvable\e[0m\e[0K\n");
             }else{
-                printf("\e[1;32mFound %i solutions\e[0m\n", solutions);
+                printf("\e[1G\e[1;32mFound %i solutions\e[0m\e[0K\n", solutions);
             }
             return false;
         }
@@ -122,7 +137,9 @@ bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
             forward = true;
             sudoku[y][x]++;
 
-            if(checkSudoku(sudoku)) break;
+            if(checkSudoku(sudoku, x, y)){
+                break;
+            }
         }
 
         if(i == 80){
@@ -131,48 +148,40 @@ bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
             forward = false;
             i = i - 2;
             solutions++;
+            printf("Solving... ");
+            fflush(stdout);
         }
     }
 
     return true;
 }
 
-bool checkSudoku(int sudoku[9][9]){
-    // check rows
-    for(int i = 0; i < 9; i++){
-        if(!isAllUnique(sudoku[i])){
-            return false;
-        }
+bool checkSudoku(int sudoku[9][9], int x, int y){
+    int checkout[9];
+
+    // check row
+    if(!isAllUnique(sudoku[y])){
+        return false;
     }
 
     // check cols
-    for(int i = 0; i < 9; i++){
-        int col[9];
+    for(int j = 0; j < 9; j++){
+        checkout[j] = sudoku[j][x];
+    }
 
-        for(int j = 0; j < 9; j++){
-            col[j] = sudoku[j][i];
-        }
-
-        if(!isAllUnique(col)){
-            return false;
-        }
+    if(!isAllUnique(checkout)){
+        return false;
     }
 
     // check blocks
-    for(int h = 0; h < 3; h++){
-        for(int i = 0; i < 3; i++){
-            int block[9];
-
-            for(int j = 0; j < 3; j++){
-                for(int k = 0; k < 3; k++){
-                    block[j * 3 + k] = sudoku[h * 3 + j][i * 3 + k];
-                }
-            }
-
-            if(!isAllUnique(block)){
-                return false;
-            }
+    for(int j = 0; j < 3; j++){
+        for(int k = 0; k < 3; k++){
+            checkout[j * 3 + k] = sudoku[(y / 3) * 3 + j][(x / 3) * 3 + k];
         }
+    }
+
+    if(!isAllUnique(checkout)){
+        return false;
     }
 
     return true;

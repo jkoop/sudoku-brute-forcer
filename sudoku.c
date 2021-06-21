@@ -89,7 +89,8 @@ void getSudoku(int sudoku[9][9]){
 bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
     bool forward = 1;
 
-    printf("Solving...\n");
+    printf("Solving... ");
+    fflush(stdout);
 
     for(int i = 0; i < 81; i++){
         if(i < 0){
@@ -122,6 +123,7 @@ bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
         }
     }
 
+    printf("\e[1;32mSolved!\e[0m\n");
     return true;
 }
 
@@ -180,7 +182,16 @@ void printSudoku(int sudoku[9][9], int setSudoku[9][9]){
                     printf("%d ", sudoku[i][j]);
                 }
             }
+
+            if(j % 3 == 2 && j != 8){
+                printf("| ");
+            }
         }
+
+        if(i % 3 == 2 && i != 8){
+            printf("\n---------------------");
+        }
+
         printf("\n");
     }
 }

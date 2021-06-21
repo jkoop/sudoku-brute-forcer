@@ -92,6 +92,10 @@ void getSudoku(int sudoku[9][9]){
                 printf("\e[1A\e[20C");
             }
 
+            if(c % 27 == 26){
+                printf("\e[1A");
+            }
+
             printf("-\e[1D");
 
             fflush(stdout);

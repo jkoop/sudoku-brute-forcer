@@ -26,9 +26,7 @@ int main(){
 
     bool solved = solveSudoku(sudoku, setSudoku);
 
-    printSudoku(sudoku, setSudoku);
-
-    return solved;
+    return !solved;
 }
 
 void getSudoku(int sudoku[9][9]){
@@ -88,13 +86,18 @@ void getSudoku(int sudoku[9][9]){
 
 bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
     bool forward = 1;
+    int solutions = 0;
 
     printf("Solving... ");
     fflush(stdout);
 
     for(int i = 0; i < 81; i++){
         if(i < 0){
-            printf("\e[1;31mNot solvable\e[0m\n");
+            if(solutions == 0){
+                printf("\e[1;31mNot solvable\e[0m\n");
+            }else{
+                printf("\e[1;32mFound %i solutions\e[0m\n", solutions);
+            }
             return false;
         }
 
@@ -121,9 +124,16 @@ bool solveSudoku(int sudoku[9][9], int setSudoku[9][9]){
 
             if(checkSudoku(sudoku)) break;
         }
+
+        if(i == 80){
+            printf("\e[1G\e[1;32mSolved!\e[0m\e[0K\n");
+            printSudoku(sudoku, setSudoku);
+            forward = false;
+            i = i - 2;
+            solutions++;
+        }
     }
 
-    printf("\e[1;32mSolved!\e[0m\n");
     return true;
 }
 

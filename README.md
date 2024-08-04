@@ -4,8 +4,18 @@ This is just something I made for fun in some free time I had.
 
 ## More stuff to read
 
-+ [CHANGES.md](./CHANGES.md)
-+ [LICENSE](./LICENSE)
+-   [CHANGES.md](./CHANGES.md)
+-   [LICENSE](./LICENSE)
+
+## Compilation
+
+No special compile parameters
+
+```sh
+sudo apt install build-essential
+gcc -march=native sudoku.c
+./a.out
+```
 
 ## Usage
 
@@ -29,14 +39,4 @@ or
 
 ```
 $ echo '530070000600195000098000060800060003400803001700020006060000280000419005000080079' | ./a.out
-```
-
-## Compilation
-
-No special compile parameters
-
-```sh
-sudo apt install build-essential
-gcc sudoku.c
-./a.out
 ```

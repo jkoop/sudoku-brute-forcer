@@ -30,7 +30,7 @@ int main(){
 }
 
 void getSudoku(int sudoku[9][9]){
-    int c;
+    int c = 0;
     char k;
 
     printf("Enter numbers of sudoku. Use 0 for blank space:");

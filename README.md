@@ -1,6 +1,6 @@
 # Brute Force Sudoku
 
-This is just something I made for fun in some free time I had.
+Solves the sudoku no matter how hard it is. Also, it's insanely fast.
 
 ## More stuff to read
 
@@ -12,31 +12,13 @@ This is just something I made for fun in some free time I had.
 No special compile parameters
 
 ```sh
-sudo apt install build-essential
-gcc -march=native sudoku.c
-./a.out
+make
 ```
 
 ## Usage
 
 ```
-$ ./a.out
-Enter numbers of sudoku. Use 0 for blank space:
-5 3 - | - 7 - | - - -
-6 - - | 1 9 5 | - - -
-- 9 8 | - - - | - 6 -
----------------------
-8 - - | - 6 - | - - 3
-4 - - | 8 - 3 | - - 1
-7 - - | - 2 - | - - 6
----------------------
-- 6 - | - - - | 2 8 -
-- - - | 4 1 9 | - - 5
-- - - | - 8 - | - 7 9
+./sudoku 530070000600195000098000060800060003400803001700020006060000280000419005000080079
 ```
 
-or
-
-```
-$ echo '530070000600195000098000060800060003400803001700020006060000280000419005000080079' | ./a.out
-```
+Additionally, the solver is implemented as a convenient helper library. See `src/sudoku.c:main` and `src/libsudoku.h` for more.

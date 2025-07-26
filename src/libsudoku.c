@@ -47,7 +47,7 @@ bool sudoku_init(struct sudoku_state* state, sudoku_board given_board) {
 
 	state->is_done = !found_start_position;
 
-	for (i = 1; i < 9; i++) {
+	for (i = 0; i < 9; i++) {
 		for (j = 1; j < 10; j++) {
 			if (
 				state->counts.rows[i][j] > 1 ||
